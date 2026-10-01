@@ -14,6 +14,10 @@ It will never pass its suggestions off as your decisions, and it will never call
 
 The two compose: hand the Studio's project package to an AI that has the skills installed, and import the AI's structured review back into the Studio to accept or reject item by item.
 
+![Zhangyi Studio: the kickoff page with Lin Siyu, the on-page assistant](docs/assets/studio-kickoff.png)
+
+![Lin Siyu's chat window: preloaded answers to common questions, fully offline](docs/assets/studio-chat.png)
+
 ## What your first session looks like
 
 You say: **"I want to make a game about running a cat café."** No jargon needed — no "core loop", no "design pillars". Zhangyi's first deliverable is a one-page draft you can react to:
