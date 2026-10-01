@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="assets/zhangyi/logo.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/zhangyi/logo-64.png">
+  <title>张翼工作台 · 从想法到第一局</title>
+  <link rel="stylesheet" href="studio.css">
+  <script defer src="studio.bundle.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="studio.html" aria-label="张翼工作台首页"><span class="brand-mark"><img src="assets/zhangyi/logo-64.png" alt="张翼徽章：金环白底上的金翼，翼尖五根红色羽毛"></span><span>张翼<span class="brand-sub">工作台</span></span></a>
+      <nav aria-label="主要导航"><a href="guide.html">使用说明</a><a href="index.html">裁决书档案馆</a><span class="nav-current" aria-current="page">正在整理的游戏</span></nav>
+      <label class="locale-control" for="locale-select"><span>语言</span><select id="locale-select" aria-label="界面语言"><option value="zh-CN">简体中文</option><option value="en">English</option></select></label>
+      <button type="button" class="mentor-toggle" id="mentor-toggle" aria-controls="mentor-pet" aria-pressed="true">隐藏林思雨</button>
+      <button type="button" class="hud-toggle" id="read-mode-toggle" aria-pressed="false" title="整页反色、隐藏装饰与侧栏，适合长时间读草案与审查记录">阅读模式</button>
+      <div class="save-state" id="save-state" role="status">保存在此浏览器</div>
+    </header>
+
+    <main class="workspace">
+      <p class="language-boundary" id="language-boundary">品类包内容目前仅中文；切换语言不会翻译题目、草案或导出文件。</p>
+      <nav class="stage-nav" aria-label="制作阶段"><button type="button" id="stage-kickoff-button" aria-current="step">01 立项</button><button type="button" id="stage-review-button">02 审方案</button><button type="button" id="stage-build-button">03 做出来</button><button type="button" id="stage-playtest-button">04 试玩与修订</button></nav>
+      <div class="page-heading" id="kickoff-heading">
+        <div>
+          <p class="kicker">从玩家的念头开始</p>
+          <h1>把想法，变成第一局。</h1>
+          <p class="intro">你可以只带来一款喜欢的游戏、一个玩法动作，或一个还没说清的愿望。先留下你已有的，下一步只处理最重要的选择。</p>
+        </div>
+        <div class="heading-actions"><button type="button" class="text-button" id="load-example">试填一个例子</button><button type="button" class="text-button" id="new-project">备份并新建</button></div>
+      </div>
+
+      <section class="folder-strip" aria-labelledby="folder-title">
+        <div><h2 id="folder-title">项目保存位置</h2><p>选一次文件夹，之后点“保存项目包”就直接存到这里。页面内的选择仍会照常保存在浏览器。</p></div>
+        <div class="folder-actions"><button type="button" class="secondary-button" id="choose-folder" disabled>选择本地文件夹</button><label for="folder-path">也可以粘贴文件夹路径</label><input id="folder-path" type="text" autocomplete="off" placeholder="例如 C:\项目\我的游戏" disabled><button type="button" class="text-button" id="use-folder-path" disabled>使用此路径</button></div>
+        <p class="microcopy folder-status" id="folder-status" role="status">正在检查本地保存服务…</p>
+      </section>
+
+      <div class="work-grid" id="kickoff-stage">
+        <div class="main-column">
+          <section class="paper-section" aria-labelledby="input-title">
+            <div class="section-heading"><div><h2 id="input-title">你现在手里有什么？</h2><p>可选多个。这里记录起点，不决定你以后只能走哪条路。</p></div></div>
+            <div class="entry-grid" id="entry-grid" role="group" aria-label="已有材料"></div>
+            <label for="idea">用自己的话记下想法 <span class="optional">可以留空，之后再补</span></label>
+            <textarea id="idea" rows="3" placeholder="例如：我很喜欢《文明6》，想做一个五代十国背景的版本。"></textarea>
+            <label for="genre">游戏品类 <span class="optional">和有没有现成工程是两回事；暂时不确定也能继续</span></label>
+            <select id="genre"><option value="auto">先不定，让张翼从想法中推测</option><option value="tactics">战棋或战术策略</option><option value="gambling">棋牌、赌局或心理博弈</option><option value="rogue">肉鸽或牌组构筑</option><option value="metroidvania">银河恶魔城（能力门控探索）</option><option value="visual-novel">视觉小说或叙事冒险（阅读推进与分支）</option><option value="puzzle">解谜（理解与推导为核心的谜题）</option><option value="party">派对或聚会游戏</option><option value="horror">恐怖或微恐治愈</option><option value="towerdefense">塔防</option><option value="survival">生存建造（资源压力与失败代价）</option><option value="simulation">模拟器（扮演职业/系统角色、按流程作业）</option><option value="idle">增量挂机/放置（产能、自动化与重置）</option><option value="management">经营或养成</option><option value="other">其他或混合玩法</option></select>
+            <p class="microcopy" id="genre-hint"></p>
+            <label for="style">表现风格 <span class="optional">只影响画面、文本与反馈，不改变玩法胜负</span></label>
+            <select id="style"><option value="none">先不定风格，或不做特定文化风格</option><option value="guofeng">古风（武侠、仙侠、国潮）</option><option value="anime">日式幻想／二次元</option><option value="western-fantasy">西幻（中世纪奇幻、低魔与史诗）</option><option value="cyberpunk">赛博朋克（近未来、义体与巨型企业）</option><option value="steampunk">蒸汽朋克与柴油朋克（维多利亚机械、两战之间）</option><option value="cozy">治愈系／cozy（庇护感、日常仪式、低压力）</option><option value="pixel">像素／复古（呈现技术纪律、可叠加任一题材）</option>
+              <option value="horror">恐怖氛围（只管呈现与不安，不管玩法规则）</option><option value="hard-scifi">硬科幻／太空（只管呈现与技术可信，不管玩法规则）</option></select>
+            <details class="extra-constraints"><summary>已有工程或不能改的条件</summary><label for="constraints">把已有引擎、项目位置等写在这里；交接文件会原样保留。</label><textarea id="constraints" rows="3" placeholder="例如：已有 Ren'Py 工程；必须沿用当前项目目录。"></textarea></details>
+            <div class="action-row"><button type="button" class="primary-button" id="save-input">保存这个起点</button><span id="input-message" class="microcopy" role="status"></span></div>
+          </section>
+
+          <section class="paper-section" id="intake-guidance" aria-labelledby="intake-guidance-title" hidden>
+            <div class="section-heading"><div><h2 id="intake-guidance-title">张翼先替你整理</h2><p>这是一版可回改的起步判断，不把猜测当事实。</p></div></div>
+            <p><strong>你带来的线索：</strong><span id="intake-known"></span></p>
+            <p><strong>张翼建议：</strong><span id="intake-suggestion"></span></p>
+            <p><strong>还要核实：</strong><span id="intake-boundary"></span></p>
+            <p class="microcopy" id="intake-basis"></p>
+          </section>
+
+          <section class="paper-section decision-section" id="route-section" aria-labelledby="route-title" hidden>
+            <div class="section-heading"><div><h2 id="route-title">第一步，想先做出什么？</h2><p id="route-help">路线以后可以改。工作台会保留你改动前的决定。</p></div></div>
+            <div class="notice"><strong>起步选项</strong><span>这里是工作台的预设路线，尚未针对你的游戏做 AI 评审。</span></div>
+            <div id="route-options" class="choice-list" role="group" aria-label="起步路线"></div>
+          </section>
+
+          <section class="paper-section decision-section" id="focus-section" aria-labelledby="focus-title" hidden>
+            <div class="section-heading"><div><h2 id="focus-title">第一份作品，先试哪一件事？</h2><p id="focus-help">把完整游戏压成一个能观察到结果的片段。</p></div></div>
+            <div id="focus-options" class="choice-list" role="group" aria-label="第一份作品重点"></div>
+          </section>
+
+          <section class="paper-section questionnaire-section" id="questionnaire-section" aria-labelledby="questionnaire-title" hidden>
+            <div class="section-heading"><div><h2 id="questionnaire-title">把方案补到下一步</h2><p>已定的内容直接带入。只回答会改变这份草案的缺口；这里是预设题库，尚无实时 AI 判断。</p></div></div>
+            <div class="questionnaire-bar"><p id="questionnaire-summary" role="status"></p><button type="button" class="text-button" id="show-deep" aria-pressed="false">展开更多可选题</button></div>
+            <div id="review-issues" class="review-issues" hidden></div>
+            <details class="accepted-details"><summary id="accepted-summary">已带入的决定</summary><ul id="accepted-question-list"></ul></details>
+            <div id="question-list" class="question-list"></div>
+            <div class="action-row"><button type="button" class="secondary-button" id="show-draft">查看立项书草案</button><span class="microcopy" id="question-message" role="status"></span></div>
+            <div class="draft-panel" id="draft-panel" hidden><div class="draft-head"><h3>立项书草案</h3><span>随答案更新</span></div><pre id="draft-preview"></pre></div>
+          </section>
+        </div>
+
+        <aside class="side-column" aria-label="项目状态">
+          <section class="live-sheet" aria-labelledby="live-title">
+            <span class="sheet-seal" aria-hidden="true"><span>翼</span></span>
+            <div class="sheet-head"><span class="live-dot" aria-hidden="true"></span><span>正在形成的游戏</span><span id="version-tag">v1</span></div>
+            <h2 id="live-title">目前能确定什么</h2>
+            <p class="sheet-lead" id="idea-preview">先留下一个念头。哪怕只有一句“我想做这样的游戏”。</p>
+            <div class="fact-row"><span>起步路线</span><strong id="route-preview">还没选</strong></div>
+            <div class="fact-row"><span>第一份作品</span><strong id="focus-preview">还没选</strong></div>
+            <div class="sheet-divider"></div>
+            <p class="sheet-label">已确认的设计决定</p>
+            <ul id="design-decisions" class="design-decisions"><li>还没有具体设计决定。</li></ul>
+            <div class="sheet-warning" id="review-warning" hidden>上游选择已改变。旧决定留着供你参考，但需要重新确认。</div>
+            <div class="sheet-divider"></div>
+            <p class="sheet-label">目前已有的证据</p>
+            <p class="sheet-note">只有你的想法与选择。小样尚未生成，也没有真人试玩结论。</p>
+          </section>
+
+          <section class="ledger" aria-labelledby="ledger-title"><div class="ledger-head"><h2 id="ledger-title">改动记录</h2><span id="change-count">0 次</span></div><ol id="history-list"></ol></section>
+        </aside>
+      </div>
+
+      <section class="review-stage" id="review-stage" aria-labelledby="review-stage-title" hidden>
+        <div class="review-hero"><div><p class="kicker">第二步 · 用现有记录审方案</p><h1 id="review-stage-title">先找出会卡住制作的决定。</h1><p class="intro">这里把已定内容、冲突和首个可玩范围摆在一起。点击才会改动你的项目记录；页面检查不等于模型专业评审或真人试玩。</p></div><div class="review-status" id="review-status" role="status"></div></div>
+        <div class="review-layout"><div class="review-main">
+          <section class="paper-section"><div class="section-heading"><div><h2>已经定下的骨架</h2><p>来自同一份项目记录；未定处直接标出。</p></div></div><dl class="review-facts" id="review-facts"></dl></section>
+          <section class="paper-section" aria-labelledby="ai-review-title"><div class="section-heading"><div><h2 id="ai-review-title">让张翼真正介入</h2><p>把项目包与审查任务交给带张翼 skill 的 AI，再把它给出的 JSON 结果导回这里。工作台本身仍是离线页面。</p></div></div><div class="action-row"><button type="button" class="secondary-button" id="download-review-task">下载审查任务</button><button type="button" class="primary-button" id="import-review-button">导入张翼审查结果</button><input type="file" id="import-review-file" accept=".json,application/json" hidden></div><p class="microcopy" id="ai-review-message" role="status"></p><div id="ai-review-cards"></div></section>
+          <section class="paper-section"><div class="section-heading"><div><h2>先处理的矛盾与缺口</h2><p>只显示工作台能从结构化答案中检查到的项目。</p></div></div><div id="review-action-list"></div></section>
+          <section class="paper-section"><div class="section-heading"><div><h2>制作风险提示</h2><p>根据已定方案推演，尚未通过实做或玩家验证。</p></div></div><div id="review-advisories"></div></section>
+          <section class="paper-section" id="first-table-section" hidden><div class="section-heading"><div><h2>四桌主线，先打通哪一桌？</h2><p>这是制作顺序，不改变已定的首版四桌范围。</p></div></div><div id="first-table-choices" class="choice-list"></div></section>
+          <section class="paper-section"><div class="section-heading"><div><h2>方案审查记录</h2><p>随选择更新，并进入项目包。供下一次开发接力使用。</p></div></div><pre class="review-document" id="review-document"></pre></section>
+        </div><aside class="review-aside"><h2>此页实际查了什么</h2><p>问卷必要题是否已定、结构化答案的已知冲突、路线前置条件，以及被上游改动影响的旧决定；四桌主线项目另查首个可玩赌桌。</p><h2>还没查什么</h2><p>没有运行游戏、核查工程或模组支持、推算平衡或观察真人玩家。完成此页后，下一步仍需要制作和试玩证据。</p><button type="button" class="primary-button" id="export-all-aside">保存项目包</button><button type="button" class="secondary-button" id="back-to-kickoff">返回立项修改答案</button></aside></div>
+      </section>
+
+      <section class="review-stage" id="build-stage" aria-labelledby="build-stage-title" hidden>
+        <div class="review-hero"><div><p class="kicker">第三步 · 把方案做成能跑的一局</p><h1 id="build-stage-title">派活给你的 AI，证据说话。</h1><p class="intro">这里把工作台已审的方案整理成《制作任务包》，交给带张翼 skill 的 AI 或你自己去制作；做出后把可玩证据导回来。工作台离线，不生成游戏代码。</p></div><div class="review-status" id="evidence-status" role="status"></div></div>
+        <div class="review-layout"><div class="review-main">
+          <section class="paper-section"><div class="section-heading"><div><h2>制作任务包</h2><p>随方案更新，并进入项目包。未定的地方写"未定"，不会替你编造。</p></div></div><div class="action-row"><button type="button" class="primary-button" id="download-build-task">下载制作任务包</button></div><pre class="review-document" id="task-preview"></pre></section>
+          <section class="paper-section"><div class="section-heading"><div><h2>导入可玩证据</h2><p>构建通过、实际运行、从头玩通、真人试玩是四级不同的证据。真人试玩记录必须带样本来源、样本量与口径，缺了会降级为自述。</p></div></div><div class="action-row"><button type="button" class="secondary-button" id="import-evidence-button">导入证据 JSON</button><input type="file" id="import-evidence-file" accept=".json,application/json" hidden></div><p class="microcopy" id="evidence-message" role="status"></p></section>
+        </div><aside class="review-aside"><h2>证据状态板</h2><p id="evidence-level-label">未制作</p><ul id="evidence-list" class="design-decisions"><li>还没有可玩证据。</li></ul><p>等级只能由证据提升："AI 说做完了"不算证据。方案改动后旧证据标为需复核。</p><button type="button" class="secondary-button" id="back-to-review">返回审方案</button></aside></div>
+      </section>
+
+      <section class="review-stage" id="playtest-stage" aria-labelledby="playtest-stage-title" hidden>
+        <div class="review-hero"><div><p class="kicker">第四步 · 让真人玩给你看</p><h1 id="playtest-stage-title">先看人玩，再决定改哪。</h1><p class="intro">这里按当前证据状态给出该测什么：导出《试飞任务》去找真人执行，回来后导入场次记录，再生成《修订建议》带回 01/02 拍板。工作台不替你试玩，模拟的问答不算玩家声音。</p></div><div class="review-status" id="playtest-status" role="status"></div></div>
+        <div class="review-layout"><div class="review-main">
+          <section class="paper-section"><div class="section-heading"><div><h2>当前该测什么</h2><p>按证据状态路由：能跑没玩通先首次观察；玩通了做体验走查；已有场次就核对修订。</p></div></div><div class="action-row"><button type="button" class="primary-button" id="download-playtest-task">下载试飞任务</button></div><pre class="review-document" id="playtest-task-preview"></pre></section>
+          <section class="paper-section"><div class="section-heading"><div><h2>导入试玩记录</h2><p>场次级记录：日期、样本三要素（来源/人数/口径）、事实与结论分开填。缺三要素的场次降级为自述级；有结论没事实的场次会带警告。</p></div></div><div class="action-row"><button type="button" class="secondary-button" id="import-playtest-button">导入记录 JSON</button><input type="file" id="import-playtest-file" accept=".json,application/json" hidden></div><p class="microcopy" id="playtest-message" role="status"></p></section>
+          <section class="paper-section"><div class="section-heading"><div><h2>修订建议</h2><p>只整理，不落地：改动回 01 改答案或回 02 走审查，由你亲手确认。</p></div></div><div class="action-row"><button type="button" class="secondary-button" id="download-revision">下载修订建议</button></div><pre class="review-document" id="revision-preview"></pre></section>
+        </div><aside class="review-aside"><h2>试玩记录板</h2><ul id="playtest-list" class="design-decisions"><li>还没有试玩记录。</li></ul><p>自述级场次可以留档，但不能支撑结论。林思雨的聊天与 AI 的模拟问答都不是玩家声音。</p><button type="button" class="secondary-button" id="back-to-build">返回做出来</button></aside></div>
+      </section>
+
+      <section class="export-section" aria-labelledby="export-title">
+        <div><p class="kicker">留给下一个自己，也留给下一个 AI</p><h2 id="export-title">把现在的决定带走</h2><p>九份文件由同一份项目记录生成。没决定的地方会写“未定”，不会替你编造。</p></div>
+        <div class="export-actions"><button type="button" class="primary-button" id="export-all">保存项目包</button><button type="button" class="secondary-button" id="browser-download">浏览器下载</button><button type="button" class="secondary-button" id="import-button">导入工作台记录</button><input type="file" id="import-file" accept=".json,application/json" hidden></div>
+        <div class="file-list"><span>zhangyi.project.json</span><span>项目总览.md</span><span>开发交接.md</span><span>立项书草案.md</span><span>方案审查记录.md</span><span>张翼审查任务.md</span><span>张翼介入记录.md</span><span>制作任务包.md</span><span>试飞任务.md</span></div>
+        <p class="microcopy" id="export-message" role="status"></p>
+      </section>
+    </main>
+    <footer>—— 张翼 Spread the Pinions · 工作台预览</footer>
+  </div>
+  <aside class="mentor-pet" id="mentor-pet" aria-label="助手林思雨" data-size="m">
+    <div class="mentor-bubble" id="mentor-bubble" hidden>
+      <p id="mentor-tip"></p>
+      <div class="mentor-bubble-actions"><button type="button" id="mentor-action">去做这一步</button><button type="button" id="mentor-chat-open">和林思雨聊聊</button><button type="button" id="mentor-hide">暂时隐藏</button></div>
+    </div>
+    <button type="button" class="mentor-sprite" id="mentor-sprite" aria-label="点林思雨看下一步；双击打开对话；拖动可移动">
+      <img class="mentor-still" src="assets/lin-siyu/still.png" alt="" draggable="false">
+      <img class="mentor-apng" data-anim="idle" src="assets/lin-siyu/idle.apng" alt="" draggable="false">
+      <img class="mentor-apng" data-anim="welcome" src="assets/lin-siyu/welcome.apng" alt="" draggable="false">
+      <img class="mentor-apng" data-anim="thinking" src="assets/lin-siyu/thinking.apng" alt="" draggable="false">
+    </button>
+  </aside>
+  <section class="mentor-chat" id="mentor-chat" role="dialog" aria-modal="true" aria-labelledby="mentor-chat-title" hidden>
+    <div class="mentor-chat-card">
+      <header><img src="assets/lin-siyu/avatar.png" alt=""><div><strong id="mentor-chat-title">林思雨</strong><small id="mentor-chat-mode">你的助手 · 根据当前项目记录回答</small></div><button type="button" id="mentor-chat-close" aria-label="关闭对话">×</button></header>
+      <div class="mentor-chat-tools"><span>形象大小</span><button type="button" data-mentor-size="s">小</button><button type="button" data-mentor-size="m">中</button><button type="button" data-mentor-size="l">大</button></div>
+      <div class="mentor-chat-history" id="mentor-chat-history" role="log" aria-live="polite"></div>
+      <div class="mentor-chat-presets" id="mentor-chat-presets"></div>
+      <p class="mentor-chat-note" id="mentor-chat-note">离线时只回答当前项目记录与工作台操作；不会假装已审查工程或见过玩家。</p>
+      <label for="mentor-chat-input">问林思雨</label><div class="mentor-chat-compose"><input id="mentor-chat-input" autocomplete="off" placeholder="比如：我下一步该做什么？"><button type="button" id="mentor-chat-send">发送</button><button type="button" id="mentor-chat-stop" hidden>停止</button></div>
+    </div>
+  </section>
+</body>
+</html>
